@@ -21,6 +21,9 @@ pub fn fetch_info() -> io::Result<()> {
         .arg(GET_INFO_COMMAND)
         .output()?;
 
+    // NOTE: I don't know how to improve this.
+    //       For anyone that are reading this, please create a PR fixing this :>
+    //       Tanky you
     let output =
         io_utf8(command.stdout).map(|item| item.lines().skip(1).next().unwrap().to_string())?;
 
