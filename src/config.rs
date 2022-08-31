@@ -2,11 +2,11 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Serialize)]
 pub struct Config {
-    pub runners: Vec<Runner>,
+    pub games: Vec<Game>,
 }
 
 #[derive(Deserialize, Serialize)]
-pub struct Runner {
-    pub path: String,
+pub struct Game {
+    pub command: String,
     pub name: String,
 }

@@ -1,12 +1,10 @@
 use std::{io, process::Command, sync::RwLock};
 
+use crate::util::io_custom;
+
 static OUTPUT: RwLock<String> = RwLock::new(String::new());
 
 const GET_INFO_COMMAND: &str = "radeontop -d - -l 1 -i 0 -";
-
-fn io_custom(message: &str) -> io::Error {
-    io::Error::new(io::ErrorKind::Other, message)
-}
 
 fn io_utf8(data: Vec<u8>) -> io::Result<String> {
     String::from_utf8(data)
@@ -30,6 +28,7 @@ pub fn fetch_info() -> io::Result<()> {
     let mut global = OUTPUT
         .write()
         .map_err(|_| io_custom("Failed lock output"))?;
+
     *global = output;
     Ok(())
 }
@@ -44,8 +43,6 @@ pub fn get_vram_usage() -> io::Result<String> {
     let raw_output = OUTPUT
         .read()
         .map_err(|_| io_custom("Failed to lock output"))?;
-
-    println!("Info[radeontop]: Parsing {raw_output}");
 
     let vram = raw_output
         .split_whitespace()
